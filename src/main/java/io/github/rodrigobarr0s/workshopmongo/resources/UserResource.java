@@ -1,11 +1,11 @@
 package io.github.rodrigobarr0s.workshopmongo.resources;
 
-import io.github.rodrigobarr0s.workshopmongo.domain.User;
 import io.github.rodrigobarr0s.workshopmongo.dto.UserDTO;
 import io.github.rodrigobarr0s.workshopmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +22,11 @@ public class UserResource {
     public ResponseEntity<List<UserDTO>> findAll() {
         var entities = service.findAll().stream().map(UserDTO::new).toList();
         return ResponseEntity.ok().body(entities);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<UserDTO> findById(@PathVariable String id) {
+        var entity = service.findById(id);
+        return ResponseEntity.ok().body(new UserDTO(entity));
     }
 }
