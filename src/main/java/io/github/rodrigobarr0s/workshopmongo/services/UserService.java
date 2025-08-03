@@ -1,4 +1,4 @@
-package io.github.rodrigobarr0s.workshopmongo.repositories.services;
+package io.github.rodrigobarr0s.workshopmongo.services;
 
 import io.github.rodrigobarr0s.workshopmongo.domain.User;
 import io.github.rodrigobarr0s.workshopmongo.repositories.UserRepository;
