@@ -4,10 +4,8 @@ import io.github.rodrigobarr0s.workshopmongo.dto.UserDTO;
 import io.github.rodrigobarr0s.workshopmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
@@ -28,5 +26,17 @@ public class UserResource {
     public ResponseEntity<UserDTO> findById(@PathVariable String id) {
         var entity = service.findById(id);
         return ResponseEntity.ok().body(new UserDTO(entity));
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> insert(@RequestBody UserDTO dto) {
+        var obj = service.fromDTO(dto);
+        var entity = service.insert(obj);
+        var uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(entity.getId())
+                .toUri();
+        return ResponseEntity.created(uri).build();
     }
 }
