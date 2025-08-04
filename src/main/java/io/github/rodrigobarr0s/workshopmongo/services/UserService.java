@@ -20,14 +20,22 @@ public class UserService {
     }
 
     public User findById(String id) {
-        return repository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Objeto não encontrado"));
+        return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
     }
 
     public User insert(User entity) {
         return repository.insert(entity);
     }
 
+    public void delete(String id) {
+        if (!repository.existsById(id)) {
+            throw new ObjectNotFoundException("Objeto não encontrado");
+        }
+        repository.deleteById(id);
+    }
+
     public User fromDTO(UserDTO dto) {
         return new User(dto.getId(), dto.getName(), dto.getEmail());
     }
+
 }
