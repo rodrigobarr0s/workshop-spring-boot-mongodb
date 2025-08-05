@@ -1,5 +1,6 @@
 package io.github.rodrigobarr0s.workshopmongo.resources;
 
+import io.github.rodrigobarr0s.workshopmongo.domain.User;
 import io.github.rodrigobarr0s.workshopmongo.dto.UserDTO;
 import io.github.rodrigobarr0s.workshopmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,14 @@ public class UserResource {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@RequestBody UserDTO dto, @PathVariable String id) {
+        User obj = service.fromDTO(dto);
+        obj.setId(id);
+        service.update(obj);
         return ResponseEntity.noContent().build();
     }
 }
