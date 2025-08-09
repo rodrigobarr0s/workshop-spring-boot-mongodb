@@ -34,11 +34,10 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    public User update(User obj) {
+    public void update(User obj) {
         var entity = findById(obj.getId());
         updateData(obj, entity);
         repository.save(entity);
-        return entity;
     }
 
     private void updateData(User obj, User entity) {
