@@ -3,6 +3,7 @@ package io.github.rodrigobarr0s.workshopmongo.config;
 import io.github.rodrigobarr0s.workshopmongo.domain.Post;
 import io.github.rodrigobarr0s.workshopmongo.domain.User;
 import io.github.rodrigobarr0s.workshopmongo.dto.AuthorDTO;
+import io.github.rodrigobarr0s.workshopmongo.dto.CommentDTO;
 import io.github.rodrigobarr0s.workshopmongo.repositories.PostRepository;
 import io.github.rodrigobarr0s.workshopmongo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +38,20 @@ public class Instantiation implements CommandLineRunner {
                 new Post(null, Instant.parse("2018-03-23T00:00:00Z"), "Bom dia", "Acordei feliz hoje!", new AuthorDTO(maria))
         };
 
+        CommentDTO[] comments = {
+                new CommentDTO("Boa viagem mano!",Instant.parse("2018-03-21T00:00:00Z"),new AuthorDTO(alex)),
+                new CommentDTO("Aproveite!",Instant.parse("2018-03-22T00:00:00Z"),new AuthorDTO(bob)),
+                new CommentDTO("Tenha um ótimo dia!",Instant.parse("2018-03-23T00:00:00Z"),new AuthorDTO(alex))
+        };
+
+        posts[0].getComments().addAll(Arrays.asList(comments[0],comments[1]));
+        posts[1].getComments().add(comments[2]);
+
         postRepository.saveAll(Arrays.asList(posts));
 
         maria.getPosts().addAll(Arrays.asList(posts[0], posts[1]));
 
         userRepository.save(maria);
+
     }
 }
